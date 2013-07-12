@@ -12,9 +12,13 @@ The following software needs to be installed:
 * Virtualbox (http://virtualbox.org)
 * Vagrant (http://vagrantup.com)
 
-Download the precise32 box with
+This script by default is using a precise32 box
 
-    vagrant init precise32 http://files.vagrantup.com/precise32.box
+example: http://files.vagrantup.com/precise32.box
+
+To change to a different platform open up the VagrantFile and change box_url variable to the box you need.
+You can locate the box of you needs here: http://www.vagrantbox.es/ 
+
 
 Installation
 ------------
