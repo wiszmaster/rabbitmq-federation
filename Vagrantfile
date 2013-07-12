@@ -4,6 +4,7 @@
 Vagrant.configure("2") do |config|
 
   box = "precise32"
+  box_url = "http://files.vagrantup.com/precise64.box"
 
   nodes = [
     { name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
@@ -14,6 +15,7 @@ Vagrant.configure("2") do |config|
   nodes.each do |node|
     config.vm.define node[:name].to_sym do |rabbit_config|
       rabbit_config.vm.box = box
+      rabbit_config.vm.box_url = box_url
       rabbit_config.vm.network :forwarded_port, guest: 15672, host: node[:mgmt_port]
       rabbit_config.vm.network :private_network, ip: node[:ip]
       rabbit_config.vm.provision :shell, :path => "rabbitmq.sh"
@@ -22,7 +24,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define :worker do |worker_config|
-    worker_config.vm.box = box
+    worker_config.vm.box = box    
+    worker_config.vm.box_url = box_url
     worker_config.vm.network :private_network, ip: "192.168.64.20"
     worker_config.vm.provision :shell, :path => "worker.sh"
     worker_config.vm.hostname = 'worker'
