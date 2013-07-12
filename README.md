@@ -41,7 +41,8 @@ You can ssh to the individual VMs like this:
     vagrant ssh rabbit3
     vagrant ssh worker
 
-The RabbitMQ Webconsoles are available (via port forwarding) on http://localhost:10010 (and 10011, 10012)
+The RabbitMQ Webconsoles are available (via port forwarding) on http://localhost:10010 (and 10011, 10012).
+Username and password are both guest by default.
 
 
 Setup on RabbitMQ
