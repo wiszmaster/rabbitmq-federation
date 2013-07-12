@@ -12,12 +12,14 @@ The following software needs to be installed:
 * Virtualbox (http://virtualbox.org)
 * Vagrant (http://vagrantup.com)
 
-This script by default is using a precise32 box
-
-example: http://files.vagrantup.com/precise32.box
+This script by default is using a precise32 box link: http://files.vagrantup.com/precise32.box
 
 To change to a different platform open up the VagrantFile and change box_url variable to the box you need.
 You can locate the box of you needs here: http://www.vagrantbox.es/ 
+
+Warning: The shell scripts only support debian based distros.
+
+TODO: update shell script files to handle other linux distros. currently the scripts use a debian based distro. 
 
 
 Installation
