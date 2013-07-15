@@ -364,8 +364,6 @@ function initDebian()
 	#sudo apt-get upgrade -y
 	#sudo apt-get dist-upgrade -y
 
-	apt-get install -q -y tmux screen htop vim curl wget build-essentials git-core
-
 	installApacheWebServer
 	configureApacheWebServer
 	installJava
