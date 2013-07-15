@@ -11,6 +11,37 @@ else
     exit 1
 fi
 
+function installColdfusion()
+{
+	apt-get install openssh-server
+	apt-get install apt-get install vim-nox
+
+
+	apt-get install apache2
+
+	# Setup default Coldfusion page
+	sudo echo '<html>' > ~/index.cfm
+	sudo echo '<head>' >> ~/index.cfm
+	sudo echo '<title>' >> ~/index.cfm
+	sudo echo 'Welcome to Coldfusion!' >> ~/index.cfm
+	sudo echo '</title>' >> ~/index.cfm
+	sudo echo '</head>' >> ~/index.cfm
+	sudo echo '<body>' >> ~/index.cfm
+	sudo echo '<h1>' >> ~/index.cfm
+	sudo echo 'It works! - Coldfusion 9' >> ~/index.cfm
+	sudo echo '</h1>' >> ~/index.cfm
+	sudo echo '<h2>' >> ~/index.cfm
+	sudo echo 'Current date and time are <cfoutput>#Now()#</cfoutput>' >> ~/index.cfm
+	sudo echo '</h2>' >> ~/index.cfm
+	sudo echo '</body>' >> ~/index.cfm
+	sudo echo '</html>' >> ~/index.cfm
+	sudo mv ~/index.cfm /var/www/index.cfm
+	sudo chown root /var/www/index.cfm
+	sudo chgrp tomcat /var/www/index.cfm
+
+	apt-get install libstdc++5
+}
+
 function initDebian()
 {
    echo "Installing RabbitMQ Worker Debian Distro"
@@ -18,6 +49,7 @@ function initDebian()
 
 	apt-get install -q -y tmux screen htop vim curl wget build-essentials git-core
 
+	installColdfusion
 }
 
 function initCentOS()
