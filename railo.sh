@@ -178,11 +178,12 @@ function installRailo()
 	sudo tar -xvzf railo-3.3.3.001-jars.tar.gz
 	sudo mv railo-3.3.3.001-jars /opt/railo
 	sudo rm -Rf railo-3.3.3.001-jars.tar.gz
+	
 	# Bleeding edge // untested prob not working
-	#sudo wget https://www.dropbox.com/s/ndjlib17uf9rkva/railo-express-4.1.0.011-nojre.tar.gz
-	#sudo tar -xvzf railo-express-4.1.0.011-nojre.tar.gz
-	#sudo mv railo-express-4.1.0.011-nojre.tar.gz /opt/railo
-	#sudo rm -Rf railo-express-4.1.0.011-nojre.tar.gz
+	#sudo wget https://dl.dropbox.com/s/xk4ndiz8c8fvj5i/railo-express-4.0.4.001-jre-linux64.tar.gz
+	#sudo tar -xvzf railo-express-4.0.4.001-jre-linux64.tar.gz
+	#sudo mv railo-express-4.0.4.001-jre-linux64.tar.gz /opt/railo
+	#sudo rm -Rf railo-express-4.0.4.001-jre-linux64.tar.gz
 }
 
 function configureRailo()
