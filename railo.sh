@@ -17,6 +17,8 @@ function installApacheWebServer()
 	echo "Installing Apache web server"
 	echo ""
 
+	sudo su
+
 	# Install Apache web server
 	sudo apt-get install apache2 -y
 	sudo a2enmod ssl
@@ -71,22 +73,37 @@ function installJava()
 	echo "Downloading and Installing Java"
 	echo ""
 
-	# Download and Install Java
-	wget https://dl.dropbox.com/u/2858263/jdk-6u33-linux-x64.bin
-	sudo chmod +x jdk-6u33-linux-x64.bin
-sudo ./jdk-6u33-linux-x64.bin <<LimitString
-yes
-LimitString
-	sudo rm -Rf jdk-6u33-linux-x64
+	# Download and Install Java Confirmed Working
+	#wget https://dl.dropbox.com/s/763l63wev8tcysc/jdk-6u33-linux-x64.bin
+	#sudo chmod +x jdk-6u33-linux-x64.bin
+#sudo ./jdk-6u33-linux-x64.bin <<LimitString
+#yes
+#LimitString
+#	sudo rm -Rf jdk-6u33-linux-x64
+#	sudo mkdir -p /usr/local/java
+#	sudo mv jdk1.6.0_33/ /usr/local/java
+#	sudo rm /usr/local/java/latest
+#	sudo ln -s /usr/local/java/jdk1.6.0_33 /usr/local/java/latest
+#	sudo sed -i 1i'JAVA_HOME="/usr/local/java/latest"' /etc/environment
+#	sudo sed -i 2i'JRE_HOME="/usr/local/java/latest/jre"' /etc/environment
+#export JAVA_HOME="/usr/local/java/latest"
+#export JRE_HOME="/usr/local/java/latest/jre"
+#export PATH="$JAVA_HOME/bin:$PATH"
+#	sudo rm /usr/local/bin/java
+#	sudo ln -s /usr/local/java/latest/bin/java /usr/local/bin/java
+
+	# Bleeding Edge - Needs Testing
+	sudo wget https://www.dropbox.com/s/mkbvemeyktz9q2b/jdk-7u25-linux-x64.gz 
+	sudo tar -xvzf jdk-7u25-linux-x64.gz
 	sudo mkdir -p /usr/local/java
-	sudo mv jdk1.6.0_33/ /usr/local/java
+	sudo mv jdk1.7.0_25/ /usr/local/java
 	sudo rm /usr/local/java/latest
-	sudo ln -s /usr/local/java/jdk1.6.0_33 /usr/local/java/latest
+	sudo ln -s /usr/local/java/jdk1.7.0_25 /usr/local/java/latest
 	sudo sed -i 1i'JAVA_HOME="/usr/local/java/latest"' /etc/environment
 	sudo sed -i 2i'JRE_HOME="/usr/local/java/latest/jre"' /etc/environment
-export JAVA_HOME="/usr/local/java/latest"
-export JRE_HOME="/usr/local/java/latest/jre"
-export PATH="$JAVA_HOME/bin:$PATH"
+	export JAVA_HOME="/usr/local/java/latest"
+	export JRE_HOME="/usr/local/java/latest/jre"
+	export PATH="$JAVA_HOME/bin:$PATH"
 	sudo rm /usr/local/bin/java
 	sudo ln -s /usr/local/java/latest/bin/java /usr/local/bin/java
 }
@@ -98,10 +115,17 @@ function installTomCatServer()
 	echo ""
 
 	# Download and Install Apache Tomcat server
-	sudo wget https://dl.dropbox.com/u/2858263/apache-tomcat-7.0.27.tar.gz
+	# // TESTED AND WORKING
+	sudo wget https://dl.dropbox.com/s/7v44t942r316ozv/apache-tomcat-7.0.27.tar.gz 
 	sudo tar -xvzf apache-tomcat-7.0.27.tar.gz
 	sudo mv apache-tomcat-7.0.27 /opt/tomcat
 	sudo rm -Rf apache-tomcat-7.0.27.tar.gz
+	# // Bleeding Edge July 16 2013 // not working
+	#sudo wget https://dl.dropbox.com/s/z1w2kwxb9yv5scn/apache-tomcat-7.0.42.tar.gz
+	#sudo tar -xvzf apache-tomcat-7.0.42.tar.gz
+	#sudo mv apache-tomcat-7.0.42.tar.gz /opt/tomcat
+	#sudo rm -Rf apache-tomcat-7.0.42.tar.gz
+
 }
 
 function configureTomcat()
@@ -150,10 +174,15 @@ function installRailo()
 	echo ""
 
 	# Download and Install Railo
-	sudo wget https://dl.dropbox.com/u/2858263/railo-3.3.3.001-jars.tar.gz
+	sudo wget https://dl.dropbox.com/s/3jrije1r8bjqvky/railo-3.3.3.001-jars.tar.gz
 	sudo tar -xvzf railo-3.3.3.001-jars.tar.gz
 	sudo mv railo-3.3.3.001-jars /opt/railo
 	sudo rm -Rf railo-3.3.3.001-jars.tar.gz
+	# Bleeding edge // untested prob not working
+	#sudo wget https://www.dropbox.com/s/ndjlib17uf9rkva/railo-express-4.1.0.011-nojre.tar.gz
+	#sudo tar -xvzf railo-express-4.1.0.011-nojre.tar.gz
+	#sudo mv railo-express-4.1.0.011-nojre.tar.gz /opt/railo
+	#sudo rm -Rf railo-express-4.1.0.011-nojre.tar.gz
 }
 
 function configureRailo()
