@@ -92,7 +92,8 @@ function installJava()
 #	sudo rm /usr/local/bin/java
 #	sudo ln -s /usr/local/java/latest/bin/java /usr/local/bin/java
 
-	# Bleeding Edge - Needs Testing
+	# Bleeding Edge 
+	# Tested Confirmed Working
 	sudo wget https://www.dropbox.com/s/mkbvemeyktz9q2b/jdk-7u25-linux-x64.gz 
 	sudo tar -xvzf jdk-7u25-linux-x64.gz
 	sudo mkdir -p /usr/local/java
@@ -116,15 +117,17 @@ function installTomCatServer()
 
 	# Download and Install Apache Tomcat server
 	# // TESTED AND WORKING
-	sudo wget https://dl.dropbox.com/s/7v44t942r316ozv/apache-tomcat-7.0.27.tar.gz 
-	sudo tar -xvzf apache-tomcat-7.0.27.tar.gz
-	sudo mv apache-tomcat-7.0.27 /opt/tomcat
-	sudo rm -Rf apache-tomcat-7.0.27.tar.gz
-	# // Bleeding Edge July 16 2013 // not working
-	#sudo wget https://dl.dropbox.com/s/z1w2kwxb9yv5scn/apache-tomcat-7.0.42.tar.gz
-	#sudo tar -xvzf apache-tomcat-7.0.42.tar.gz
-	#sudo mv apache-tomcat-7.0.42.tar.gz /opt/tomcat
-	#sudo rm -Rf apache-tomcat-7.0.42.tar.gz
+	#sudo wget https://dl.dropbox.com/s/7v44t942r316ozv/apache-tomcat-7.0.27.tar.gz 
+	#sudo tar -xvzf apache-tomcat-7.0.27.tar.gz
+	#sudo mv apache-tomcat-7.0.27 /opt/tomcat
+	#sudo rm -Rf apache-tomcat-7.0.27.tar.gz
+	
+	# // Bleeding Edge July 16 2013 ///
+	# // TESTED AND WORKING //
+	sudo wget https://dl.dropbox.com/s/z1w2kwxb9yv5scn/apache-tomcat-7.0.42.tar.gz
+	sudo tar -xvzf apache-tomcat-7.0.42.tar.gz
+	sudo mv apache-tomcat-7.0.42 /opt/tomcat
+	sudo rm -Rf apache-tomcat-7.0.42.tar.gz
 
 }
 
@@ -179,10 +182,10 @@ function installRailo()
 	sudo mv railo-3.3.3.001-jars /opt/railo
 	sudo rm -Rf railo-3.3.3.001-jars.tar.gz
 	
-	# Bleeding edge // untested prob not working
+	# Bleeding edge // not working
 	#sudo wget https://dl.dropbox.com/s/xk4ndiz8c8fvj5i/railo-express-4.0.4.001-jre-linux64.tar.gz
 	#sudo tar -xvzf railo-express-4.0.4.001-jre-linux64.tar.gz
-	#sudo mv railo-express-4.0.4.001-jre-linux64.tar.gz /opt/railo
+	#sudo mv railo-express-4.0.4.001-jre-linux64 /opt/railo
 	#sudo rm -Rf railo-express-4.0.4.001-jre-linux64.tar.gz
 }
 
@@ -241,6 +244,31 @@ function configureRailo()
 	LINENUMBER=`sudo grep -n "SingleSignOn valve" /opt/tomcat/conf/server.xml | sed 's/:.*//'`
 	sudo sed -i "$LINENUMBER"i'\\t\t<Context path="" docBase="/var/www"/>' /opt/tomcat/conf/server.xml
 	sudo chown -R tomcat:tomcat /opt/railo 
+}
+
+function installCFWheels()
+{
+	echo ""
+	echo "Installing CFWheels"
+	echo ""
+
+	sudo wget https://dl.dropbox.com/s/f5s1ce3n3a6lnq6/cfwheels.1.1.8.zip
+	sudo mkdir -p /var/www/millitalk_api
+	sudo unzip cfwheels.1.1.8.zip -d /var/www/millitalk_api
+
+	sudo rm -Rf cfwheels.1.1.8.zip
+}
+
+function installedRabbitMQClient()
+{
+	echo ""
+	echo "Installing RabbitMQ Java Client"
+	echo ""
+
+	sudo wget https://dl.dropbox.com/s/qhlnpqk0fzt7v0c/rabbitmq-java-client-bin-3.1.3.tar.gz
+	sudo tar -xvzf rabbitmq-java-client-bin-3.1.3.tar.gz
+	sudo mv rabbitmq-java-client-bin-3.1.3 /usr/local/java/latest/lib
+	sudo rm -Rf rabbitmq-java-client-bin-3.1.3.tar.gz
 }
 
 function finalizeServerConfiguration()
@@ -365,13 +393,6 @@ function finalizeServerConfiguration()
 	sleep 2m
 
 	echo ""
-	echo "Installing unzip utility"
-	echo ""
-
-	# Install unzip utility
-	sudo apt-get install unzip -y
-
-	echo ""
 	echo "Secure the Railo web"
 	echo ""
 
@@ -388,8 +409,11 @@ function initDebian()
 	echo ""
 
 	# Update the server with the latest updates
-	apt-get update
-	apt-get install -q -y tmux screen htop vim curl wget build-essentials git-core
+	sudo apt-get update
+	sudo apt-get install -q -y tmux screen htop unzip vim curl wget build-essentials git-core
+	# Install unzip utility
+	sudo apt-get install unzip -y
+
 	#sudo apt-get update -y
 	#sudo apt-get upgrade -y
 	#sudo apt-get dist-upgrade -y
@@ -401,6 +425,8 @@ function initDebian()
 	configureTomcat
 	installRailo
 	configureRailo
+	installCFWheels
+	installedRabbitMQClient
 	finalizeServerConfiguration
 
 	#sudo apt-get update -y
