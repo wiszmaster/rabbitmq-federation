@@ -16,8 +16,7 @@ function installColdfusion()
 	apt-get install openssh-server
 	apt-get install apt-get install vim-nox
 
-
-	apt-get install apache2
+	apt-get install apache2 -y
 
 	# Setup default Coldfusion page
 	sudo echo '<html>' > ~/index.cfm

@@ -259,6 +259,17 @@ function installCFWheels()
 	sudo rm -Rf cfwheels.1.1.8.zip
 }
 
+function installCFWheelsPlugins()
+{
+	echo ""
+	echo "Installing CFWheels PluginManager"
+	echo ""
+
+	sudo wget https://dl.dropbox.com/s/6hkg3gj9ec1qvpi/PluginManager-1.0.6.zip
+	sudo mkdir -p /var/www/millitalk_api/plugins	
+	sudo mv PluginManager-1.0.6.zip/var/www/millitalk_api/plugins
+}
+
 function installedRabbitMQClient()
 {
 	echo ""
@@ -426,6 +437,7 @@ function initDebian()
 	installRailo
 	configureRailo
 	installCFWheels
+	installCFWheelsPlugins
 	installedRabbitMQClient
 	finalizeServerConfiguration
 
