@@ -455,13 +455,12 @@ function installSublimtText3()
 
 	#configure sublime text to run from terminal
 	sudo ln -s /opt/sublime_text_3/ /usr/bin/sublime
-
 }
 
 function initDebian()
 {
 	echo ""
-	echo "Update the server with the latest updates"
+	echo "Installing Debian Distro"
 	echo ""
 
 	# Update the server with the latest updates
@@ -494,12 +493,13 @@ function initDebian()
 function initCentOS()
 {
 	echo ""
+	echo "Installing Cento Distro"
 	echo "CentOS is not complete at this time, switch to Ubuntu for now sorry."
 	echo ""
 
     exit 1
 	
-   echo "Installing RabbitMQ Worker CentOS Distro"
+   echo "Installing CentOS Distro"
 	yum -y update
     VERS=$(cat /etc/redhat-release |cut -d' ' -f4 |cut -d'.' -f1)
 	if [ "$VERS" = "6" ]
