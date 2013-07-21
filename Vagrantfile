@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
   ubuntu_box_url = "http://files.vagrantup.com/precise64.box" #host ubuntu box
   ubuntu_32_box_url = ""http://files.vagrantup.com/lucid32.box" #host ubuntu box
 
+
   # CentOS Box Info
   centos_5_6_box = "centos5_6"
   centos_5_6_box_url = "http://dl.dropbox.com/u/9227672/centos-5.6-x86_64-netinstall-4.1.6.box"
@@ -23,14 +24,14 @@ Vagrant.configure("2") do |config|
   freeswitch_box = "freeswitch"
   couchdb_box = "couchdb"
 
-  # initialize box url 
-  current_box_url = ubuntu_box_url # using ubuntu
-
   # Set RAM to 1024mb 
   #config.vm.customize ["modifyvm", :id, "--memory", 1024]
 
+  # initialize box url 
+  current_box_url = ubuntu_box_url # using ubuntu
+
   nodes = [
-    { name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
+    #{ name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
     #{ name: 'rabbit2', ip: '192.168.40.11', mgmt_port: 10011 },
     #{ name: 'rabbit3', ip: '192.168.40.12', mgmt_port: 10012 },
   ]
@@ -55,14 +56,14 @@ Vagrant.configure("2") do |config|
   #  worker_config.vm.synced_folder "src/", "/srv/"
   #end
 
-  config.vm.define :railo do |railo_config|
-    railo_config.vm.box = railo_box    
-    railo_config.vm.box_url = current_box_url
-    railo_config.vm.network :private_network, ip: "192.168.64.21"
-    railo_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
-    railo_config.vm.hostname = 'railo'
-    #railo_config.vm.synced_folder "src/cfml/", "/var/www/rabbitmq"
-  end
+  #config.vm.define :railo do |railo_config|
+  #  railo_config.vm.box = railo_box    
+  #  railo_config.vm.box_url = current_box_url
+  #  railo_config.vm.network :private_network, ip: "192.168.64.21"
+  #  railo_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
+  #  railo_config.vm.hostname = 'railo'
+  #  #railo_config.vm.synced_folder "src/cfml/", "/var/www/rabbitmq"
+  #end
 
   config.vm.define :freeswitch do |freeswitch_config|
     freeswitch_config.vm.box = freeswitch_box    
@@ -73,14 +74,14 @@ Vagrant.configure("2") do |config|
     #freeswitch_config.vm.synced_folder "src/freeswitch/", "/opt/freeswitch"  #expose freeswitch code to host computer
   end
 
-  config.vm.define :mysql do |mysql_config|
-    mysql_config.vm.box = mysql_box    
-    mysql_config.vm.box_url = current_box_url
-    mysql_config.vm.network :private_network, ip: "192.168.64.23"
-    mysql_config.vm.provision :shell, :path => "bash_scripts/mysql.sh"
-    mysql_config.vm.hostname = 'freeswitch'
-    #mysql_config.vm.synced_folder "src/mysql/", "/opt/mysql"  #expose mysql code to host computer
-  end
+  #config.vm.define :mysql do |mysql_config|
+  #  mysql_config.vm.box = mysql_box    
+  #  mysql_config.vm.box_url = current_box_url
+  #  mysql_config.vm.network :private_network, ip: "192.168.64.23"
+  #  mysql_config.vm.provision :shell, :path => "bash_scripts/mysql.sh"
+  #  mysql_config.vm.hostname = 'freeswitch'
+  #  #mysql_config.vm.synced_folder "src/mysql/", "/opt/mysql"  #expose mysql code to host computer
+  #end
 
   #config.vm.define :millibot do |millibot_config|
   #  millibot_config.vm.box = millibot_box    

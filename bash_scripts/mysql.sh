@@ -25,7 +25,7 @@ function installMySQL()
 function configureMysql()
 {
 	echo ""
-	echo "Installing MySql"
+	echo "Configure MySql"
 	echo ""
 
 }
