@@ -441,6 +441,23 @@ function finalizeServerConfiguration()
 	sudo chgrp -hR tomcat /var/www 
 }
 
+function installSublimtText3()
+{
+	echo ""
+	echo "Installing and Configuring Sublime Text 3 - Beta"
+	echo ""
+
+	# grab tar and extract
+	sudo wget https://dl.dropbox.com/s/30hd3euy1wjhrw3/sublime_text_3_build_3047_x32.tar.bz2
+	sudo tar -xf sublime_text_3_build_3047_x32.tar.bz
+	sudo mv sublime_text_3 /opt/sublime_text_3/
+	sudo rm -Rf sublime_text_3_build_3047_x32.tar.bz
+
+	#configure sublime text to run from terminal
+	sudo ln -s /opt/sublime_text_3/ /usr/bin/sublime
+
+}
+
 function initDebian()
 {
 	echo ""
