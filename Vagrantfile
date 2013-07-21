@@ -5,7 +5,9 @@ Vagrant.configure("2") do |config|
 
   # Ubuntu Box Info
   ubuntu_box = "ubuntu"  #// vm box name
+  # Use 64bit Ubuntu Lucid 10.04
   ubuntu_box_url = "http://files.vagrantup.com/precise64.box" #host ubuntu box
+  ubuntu_32_box_url = ""http://files.vagrantup.com/lucid32.box" #host ubuntu box
 
   # CentOS Box Info
   centos_5_6_box = "centos5_6"
@@ -19,9 +21,13 @@ Vagrant.configure("2") do |config|
   mysql_box = "mysql"
   millibot_box = "millibot"
   freeswitch_box = "freeswitch"
+  couchdb_box = "couchdb"
 
   # initialize box url 
   current_box_url = ubuntu_box_url # using ubuntu
+
+  # Set RAM to 1024mb 
+  #config.vm.customize ["modifyvm", :id, "--memory", 1024]
 
   nodes = [
     { name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },

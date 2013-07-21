@@ -19,7 +19,7 @@ function installMySQL()
 	echo "Installing MySql"
 	echo ""
 
-	sudo apt-get install mysql-server
+	sudo apt-get install mysql-server -y
 }
 
 function configureMysql()
