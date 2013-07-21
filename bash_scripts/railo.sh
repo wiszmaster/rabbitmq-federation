@@ -176,17 +176,21 @@ function installRailo()
 	echo "Download and Install Railo"
 	echo ""
 
-	# Download and Install Railo
-	sudo wget https://dl.dropbox.com/s/3jrije1r8bjqvky/railo-3.3.3.001-jars.tar.gz
-	sudo tar -xvzf railo-3.3.3.001-jars.tar.gz
-	sudo mv railo-3.3.3.001-jars /opt/railo
-	sudo rm -Rf railo-3.3.3.001-jars.tar.gz
+	# Download and Install Railo 3.3.3.001
+	#sudo wget https://dl.dropbox.com/s/3jrije1r8bjqvky/railo-3.3.3.001-jars.tar.gz
+	#sudo tar -xvzf railo-3.3.3.001-jars.tar.gz
+	#sudo mv railo-3.3.3.001-jars /opt/railo
+	#sudo rm -Rf railo-3.3.3.001-jars.tar.gz
 	
-	# Bleeding edge // not working
-	#sudo wget https://dl.dropbox.com/s/xk4ndiz8c8fvj5i/railo-express-4.0.4.001-jre-linux64.tar.gz
-	#sudo tar -xvzf railo-express-4.0.4.001-jre-linux64.tar.gz
-	#sudo mv railo-express-4.0.4.001-jre-linux64 /opt/railo
-	#sudo rm -Rf railo-express-4.0.4.001-jre-linux64.tar.gz
+	# Download and InstallRailo 4.0.4.001
+	sudo wget https://www.dropbox.com/s/ux0o6vi5e95oo7g/railo-4.0.4.001-jars.tar.gz
+	sudo tar -xvzf railo-4.0.4.001-jars.tar.gz
+	sudo mv railo-4.0.4.001-jars /opt/railo/
+	sudo rm -Rf railo-4.0.4.001-jars.tar.gz
+
+	sudo rm -Rf /opt/railo/ehcache.jar
+	sudo rm -Rf /opt/railo/railo-sl4j.jar
+	sudo rm -Rf /opt/railo/slf4j-api.jar
 }
 
 function configureRailo()
@@ -208,6 +212,13 @@ function configureRailo()
 	sudo sed -i "$LINENUMBER"i'\\t\t<servlet-class>railo.loader.servlet.CFMLServlet</servlet-class>' /opt/tomcat/conf/web.xml
 	sudo sed -i "$LINENUMBER"i'\\t\t<servlet-name>CFMLServlet</servlet-name>' /opt/tomcat/conf/web.xml
 	sudo sed -i "$LINENUMBER"i'\\t<servlet>' /opt/tomcat/conf/web.xml
+	
+	# railo 4 REST functionality
+	#sudo sed -i "$LINENUMBER"i'\\t<servlet>' /opt/tomcat/conf/web.xml
+	#sudo sed -i "$LINENUMBER"i'\\t\t<load-on-startup>2</load-on-startup>' /opt/tomcat/conf/web.xml
+	#sudo sed -i "$LINENUMBER"i'\\t\t<servlet-class>railo.loader.servlet.RestServlet</servlet-class>' /opt/tomcat/conf/web.xml
+	#sudo sed -i "$LINENUMBER"i'\\t\t<servlet-name>RestServlet</servlet-name>' /opt/tomcat/conf/web.xml
+	#sudo sed -i "$LINENUMBER"i'\\t<servlet id="RestServlet">' /opt/tomcat/conf/web.xml	
 
 	LINENUMBER=`sudo grep -n "Built In Filter Definitions" /opt/tomcat/conf/web.xml | sed 's/:.*//'`
 
@@ -225,6 +236,12 @@ function configureRailo()
 	sudo sed -i "$LINENUMBER"i'\\t\t<servlet-name>CFMLServlet</servlet-name>' /opt/tomcat/conf/web.xml
 	sudo sed -i "$LINENUMBER"i'\\t<servlet-mapping>' /opt/tomcat/conf/web.xml
 	# end Uncomment
+
+	# Railo 4 REST Servlet
+	#sudo sed -i "$LINENUMBER"i'\\t</servlet-mapping>' /opt/tomcat/conf/web.xml
+	#sudo sed -i "$LINENUMBER"i'\\t\t<url-pattern>/rest/*</url-pattern>' /opt/tomcat/conf/web.xml
+	#sudo sed -i "$LINENUMBER"i'\\t\t<servlet-name>RestServlet</servlet-name>' /opt/tomcat/conf/web.xml
+	#sudo sed -i "$LINENUMBER"i'\\t<servlet-mapping>' /opt/tomcat/conf/web.xml
 
 	sudo sed -i "$LINENUMBER"i'\\t</servlet-mapping>' /opt/tomcat/conf/web.xml
 	sudo sed -i "$LINENUMBER"i'\\t\t<url-pattern>*.cfc</url-pattern>' /opt/tomcat/conf/web.xml
@@ -244,6 +261,17 @@ function configureRailo()
 	LINENUMBER=`sudo grep -n "SingleSignOn valve" /opt/tomcat/conf/server.xml | sed 's/:.*//'`
 	sudo sed -i "$LINENUMBER"i'\\t\t<Context path="" docBase="/var/www"/>' /opt/tomcat/conf/server.xml
 	sudo chown -R tomcat:tomcat /opt/railo 
+}
+
+function intallJavaLoader()
+{
+	echo ""
+	echo "Installing JavaLoader"
+	echo ""	
+
+	sudo wget https://www.dropbox.com/s/19ccy3sqi8kahhk/javaloader_v1.1.zip
+	sudo unzip javaloader_v1.1.zip -d /opt/railo/
+	sudo rm -Rf javaloader_v1.1.zip
 }
 
 function installCFWheels()

@@ -9,9 +9,6 @@ Vagrant.configure("2") do |config|
   railo_box = "railo"
   millibot_box = "millibot"
 
-  coldfusion_box = "base"
-  coldfusion_box_url = "vagrant box add base https://s3.amazonaws.com/davejlong/vagrant/coldfusion.box"
-
   nodes = [
     { name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
     #{ name: 'rabbit2', ip: '192.168.40.11', mgmt_port: 10011 },
@@ -44,16 +41,8 @@ Vagrant.configure("2") do |config|
     railo_config.vm.network :private_network, ip: "192.168.64.21"
     railo_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
     railo_config.vm.hostname = 'railo'
-    railo_config.vm.synced_folder "src/cfml/", "/var/www/millitalk_api"
+    railo_config.vm.synced_folder "src/cfml/", "/var/www/rabbitmq"
   end
-
-  #config.vm.define :coldfusion do |coldfusion_config|
-  #  coldfusion_config.vm.box = coldfusion_box    
-  #  coldfusion_config.vm.box_url = coldfusion_box_url
-  #  coldfusion_config.vm.network :private_network, ip: "192.168.64.22"
-  #  coldfusion_config.vm.provision :shell, :path => "bash_scripts/coldfusion.sh"
-  #  coldfusion_config.vm.hostname = 'coldfusion'
-  #end
 
   #config.vm.define :millibot do |millibot_config|
   #  millibot_config.vm.box = millibot_box    
