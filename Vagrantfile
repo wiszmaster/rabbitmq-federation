@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   ubuntu_box = "ubuntu"  #// vm box name
   # Use 64bit Ubuntu Lucid 10.04
   ubuntu_box_url = "http://files.vagrantup.com/precise64.box" #host ubuntu box
-  ubuntu_32_box_url = ""http://files.vagrantup.com/lucid32.box" #host ubuntu box
+  ubuntu_32_box_url = "http://files.vagrantup.com/lucid32.box" #host ubuntu box
 
 
   # CentOS Box Info
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   couchdb_box = "couchdb"
 
   # Set RAM to 1024mb 
-  #config.vm.customize ["modifyvm", :id, "--memory", 1024]
+  # config.vm.customize ["modifyvm", :id, "--memory", 1024]
 
   # initialize box url 
   current_box_url = ubuntu_box_url # using ubuntu
