@@ -212,13 +212,6 @@ function configureRailo()
 	sudo sed -i "$LINENUMBER"i'\\t\t<servlet-class>railo.loader.servlet.CFMLServlet</servlet-class>' /opt/tomcat/conf/web.xml
 	sudo sed -i "$LINENUMBER"i'\\t\t<servlet-name>CFMLServlet</servlet-name>' /opt/tomcat/conf/web.xml
 	sudo sed -i "$LINENUMBER"i'\\t<servlet>' /opt/tomcat/conf/web.xml
-	
-	# railo 4 REST functionality
-	#sudo sed -i "$LINENUMBER"i'\\t<servlet>' /opt/tomcat/conf/web.xml
-	#sudo sed -i "$LINENUMBER"i'\\t\t<load-on-startup>2</load-on-startup>' /opt/tomcat/conf/web.xml
-	#sudo sed -i "$LINENUMBER"i'\\t\t<servlet-class>railo.loader.servlet.RestServlet</servlet-class>' /opt/tomcat/conf/web.xml
-	#sudo sed -i "$LINENUMBER"i'\\t\t<servlet-name>RestServlet</servlet-name>' /opt/tomcat/conf/web.xml
-	#sudo sed -i "$LINENUMBER"i'\\t<servlet id="RestServlet">' /opt/tomcat/conf/web.xml	
 
 	LINENUMBER=`sudo grep -n "Built In Filter Definitions" /opt/tomcat/conf/web.xml | sed 's/:.*//'`
 
@@ -237,11 +230,22 @@ function configureRailo()
 	sudo sed -i "$LINENUMBER"i'\\t<servlet-mapping>' /opt/tomcat/conf/web.xml
 	# end Uncomment
 
-	# Railo 4 REST Servlet
-	#sudo sed -i "$LINENUMBER"i'\\t</servlet-mapping>' /opt/tomcat/conf/web.xml
-	#sudo sed -i "$LINENUMBER"i'\\t\t<url-pattern>/rest/*</url-pattern>' /opt/tomcat/conf/web.xml
-	#sudo sed -i "$LINENUMBER"i'\\t\t<servlet-name>RestServlet</servlet-name>' /opt/tomcat/conf/web.xml
-	#sudo sed -i "$LINENUMBER"i'\\t<servlet-mapping>' /opt/tomcat/conf/web.xml
+	# Railo 4 Rest web Services
+	sudo sed -i "$LINENUMBER"i'\\t</servlet-mapping>' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'\\t\t<url-pattern>/rest/*</url-pattern>' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'\\t\t<servlet-name>RESTServlet</servlet-name>' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'\\t<servlet-mapping>' /opt/tomcat/conf/web.xml
+
+	sudo sed -i "$LINENUMBER"i'\\t</servlet>' /opt/tomcat/conf/web.xml  
+	sudo sed -i "$LINENUMBER"i'\\t\t<load-on-startup>2</load-on-startup>' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'\\t\t<servlet-class>railo.loader.servlet.RestServlet</servlet-class>' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'\\t<servlet-name>RESTServlet</servlet-name>' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'\\t<description>Railo Servlet for RESTful services</description>' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'\\t<servlet id="RESTServlet">' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'<!-- Railo REST Servlet - handles Railos RESTful web services             -->' /opt/tomcat/conf/web.xml
+	sudo sed -i "$LINENUMBER"i'<!--=====================================================================-->' /opt/tomcat/conf/web.xml
+
 
 	sudo sed -i "$LINENUMBER"i'\\t</servlet-mapping>' /opt/tomcat/conf/web.xml
 	sudo sed -i "$LINENUMBER"i'\\t\t<url-pattern>*.cfc</url-pattern>' /opt/tomcat/conf/web.xml
@@ -444,17 +448,12 @@ function finalizeServerConfiguration()
 function installSublimtText3()
 {
 	echo ""
-	echo "Installing and Configuring Sublime Text 3 - Beta"
+	echo "Installing and Configuring Sublime Text 2"
 	echo ""
 
-	# grab tar and extract
-	sudo wget https://dl.dropbox.com/s/30hd3euy1wjhrw3/sublime_text_3_build_3047_x32.tar.bz2
-	sudo tar -xf sublime_text_3_build_3047_x32.tar.bz
-	sudo mv sublime_text_3 /opt/sublime_text_3/
-	sudo rm -Rf sublime_text_3_build_3047_x32.tar.bz
-
-	#configure sublime text to run from terminal
-	sudo ln -s /opt/sublime_text_3/ /usr/bin/sublime
+	sudo add-apt-repository ppa:webupd8team/sublime-text-2
+	sudo apt-get update
+	sudo apt-get install sublime-text
 }
 
 function initDebian()
@@ -467,7 +466,9 @@ function initDebian()
 	sudo apt-get update
 	sudo apt-get install -q -y tmux screen htop unzip vim curl wget build-essentials git-core
 	# Install unzip utility
+	sudo apt-get install vim -y
 	sudo apt-get install unzip -y
+	sudo apt-get install python-software-properties -y
 
 	#sudo apt-get update -y
 	#sudo apt-get upgrade -y
@@ -481,6 +482,7 @@ function initDebian()
 	installRailo
 	configureRailo
 	installCFWheels
+	intallJavaLoader
 	installCFWheelsPlugins
 	installedRabbitMQClient
 	finalizeServerConfiguration
