@@ -9,6 +9,10 @@ Vagrant.configure("2") do |config|
   ubuntu_box_url = "http://files.vagrantup.com/precise64.box" #host ubuntu box
   ubuntu_32_box_url = "http://files.vagrantup.com/lucid32.box" #host ubuntu box
 
+  # 64 bit vmware box
+
+  ubuntu_vmware_box = "ubuntu_vmware"
+  ubuntu_vmware_box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
   # CentOS Box Info
   centos_5_6_box = "centos5_6"
@@ -31,7 +35,7 @@ Vagrant.configure("2") do |config|
   current_box_url = ubuntu_box_url # using ubuntu
 
   nodes = [
-    #{ name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
+    { name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
     #{ name: 'rabbit2', ip: '192.168.40.11', mgmt_port: 10011 },
     #{ name: 'rabbit3', ip: '192.168.40.12', mgmt_port: 10012 },
   ]
@@ -47,6 +51,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
+
   #config.vm.define :worker do |worker_config|
   #  worker_config.vm.box = ubuntu_box    
   #  worker_config.vm.box_url = current_box_url
@@ -56,14 +61,14 @@ Vagrant.configure("2") do |config|
   #  worker_config.vm.synced_folder "src/", "/srv/"
   #end
 
-  #config.vm.define :railo do |railo_config|
-  #  railo_config.vm.box = railo_box    
-  #  railo_config.vm.box_url = current_box_url
-  #  railo_config.vm.network :private_network, ip: "192.168.64.21"
-  #  railo_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
-  #  railo_config.vm.hostname = 'railo'
-  #  #railo_config.vm.synced_folder "src/cfml/", "/var/www/rabbitmq"
-  #end
+  config.vm.define :railo do |railo_config|
+    railo_config.vm.box = railo_box    
+    railo_config.vm.box_url = current_box_url
+    railo_config.vm.network :private_network, ip: "192.168.64.21"
+    railo_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
+    railo_config.vm.hostname = 'railo'
+    #railo_config.vm.synced_folder "src/cfml/", "/var/www/rabbitmq"
+  end
 
   config.vm.define :freeswitch do |freeswitch_config|
     freeswitch_config.vm.box = freeswitch_box    
@@ -89,6 +94,16 @@ Vagrant.configure("2") do |config|
   #  millibot_config.vm.network :private_network, ip: "192.168.64.24"
   #  millibot_config.vm.provision :shell, :path => "bash_scripts/millibot.sh"
   #  millibot_config.vm.hostname = 'millibot'
+  #end
+
+  # need to purchase vagrant fusion and workstation licenses =( ... RAGE
+  #config.vm.provider "vmware_fusion" do |vmware_config|
+  #    vmware_config.gui = false
+  #    vmware_config.vm.box = ubuntu_vmware_box
+  #    vmware_config.vm.box_url = ubuntu_vmware_box_url
+  #    vmware_config.vm.network :private_network, ip: "192.168.64.25"
+  #    vmware_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
+  #    vmware_config.vm.hostname = 'vmware_fusion'
   #end
 
 end
