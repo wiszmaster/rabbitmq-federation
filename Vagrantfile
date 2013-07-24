@@ -27,6 +27,7 @@ Vagrant.configure("2") do |config|
   millibot_box = "millibot"
   freeswitch_box = "freeswitch"
   couchdb_box = "couchdb"
+  jira_box = "jira"
 
   # Set RAM to 1024mb 
   # config.vm.customize ["modifyvm", :id, "--memory", 1024]
@@ -35,7 +36,7 @@ Vagrant.configure("2") do |config|
   current_box_url = ubuntu_box_url # using ubuntu
 
   nodes = [
-    { name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
+    #{ name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
     #{ name: 'rabbit2', ip: '192.168.40.11', mgmt_port: 10011 },
     #{ name: 'rabbit3', ip: '192.168.40.12', mgmt_port: 10012 },
   ]
@@ -51,7 +52,6 @@ Vagrant.configure("2") do |config|
     end
   end
 
-
   #config.vm.define :worker do |worker_config|
   #  worker_config.vm.box = ubuntu_box    
   #  worker_config.vm.box_url = current_box_url
@@ -61,23 +61,23 @@ Vagrant.configure("2") do |config|
   #  worker_config.vm.synced_folder "src/", "/srv/"
   #end
 
-  config.vm.define :railo do |railo_config|
-    railo_config.vm.box = railo_box    
-    railo_config.vm.box_url = current_box_url
-    railo_config.vm.network :private_network, ip: "192.168.64.21"
-    railo_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
-    railo_config.vm.hostname = 'railo'
-    #railo_config.vm.synced_folder "src/cfml/", "/var/www/rabbitmq"
-  end
+  #config.vm.define :railo do |railo_config|
+  #  railo_config.vm.box = railo_box    
+  #  railo_config.vm.box_url = current_box_url
+  #  railo_config.vm.network :private_network, ip: "192.168.64.21"
+  #  railo_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
+  #  railo_config.vm.hostname = 'railo'
+  #  #railo_config.vm.synced_folder "src/cfml/", "/var/www/rabbitmq"
+  #end
 
-  config.vm.define :freeswitch do |freeswitch_config|
-    freeswitch_config.vm.box = freeswitch_box    
-    freeswitch_config.vm.box_url = current_box_url
-    freeswitch_config.vm.network :private_network, ip: "192.168.64.22"
-    freeswitch_config.vm.provision :shell, :path => "bash_scripts/freeswitch.sh"
-    freeswitch_config.vm.hostname = 'freeswitch'
-    #freeswitch_config.vm.synced_folder "src/freeswitch/", "/opt/freeswitch"  #expose freeswitch code to host computer
-  end
+  #config.vm.define :freeswitch do |freeswitch_config|
+  #  freeswitch_config.vm.box = freeswitch_box    
+  #  freeswitch_config.vm.box_url = current_box_url
+  #  freeswitch_config.vm.network :private_network, ip: "192.168.64.22"
+  #  freeswitch_config.vm.provision :shell, :path => "bash_scripts/freeswitch.sh"
+  #  freeswitch_config.vm.hostname = 'freeswitch'
+  #  #freeswitch_config.vm.synced_folder "src/freeswitch/", "/opt/freeswitch"  #expose freeswitch code to host computer
+  #end
 
   #config.vm.define :mysql do |mysql_config|
   #  mysql_config.vm.box = mysql_box    
@@ -96,12 +96,34 @@ Vagrant.configure("2") do |config|
   #  millibot_config.vm.hostname = 'millibot'
   #end
 
+
+  config.vm.define :jira do |jira_config|
+  config.vm.provider "virtualbox" do |v|
+  v.gui = true
+end
+    jira_config.vm.box = jira_box    
+    jira_config.vm.box_url = current_box_url
+    jira_config.vm.network :private_network, ip: "192.168.64.24"
+    jira_config.vm.network :forwarded_port, guest: 1990, host: 1990 # Confluence
+    jira_config.vm.network :forwarded_port, guest: 2990, host: 2990 # JIRA
+    jira_config.vm.provision :shell, :path => "bash_scripts/jira.sh"
+    # Make it so that network access from the vagrant guest is able to
+    # use SSH private keys that are present on the host without copying
+    # them into the VM.
+    jira_config.ssh.forward_agent = true
+    jira_config.vm.hostname = 'jira'
+    # jira_config.vm.provision :puppet, :module_path => "src/atlassian-connect-jira-vagrant/modules" do |puppet|
+    # puppet.manifests_path = "src/atlassian-connect-jira-vagrant/manifests/"
+    # puppet.manifest_file  = "default.pp"
+    # end
+  end
+
   # need to purchase vagrant fusion and workstation licenses =( ... RAGE
   #config.vm.provider "vmware_fusion" do |vmware_config|
   #    vmware_config.gui = false
   #    vmware_config.vm.box = ubuntu_vmware_box
   #    vmware_config.vm.box_url = ubuntu_vmware_box_url
-  #    vmware_config.vm.network :private_network, ip: "192.168.64.25"
+  #    vmware_config.vm.network :private_network, ip: "192.168.64.26"
   #    vmware_config.vm.provision :shell, :path => "bash_scripts/railo.sh"
   #    vmware_config.vm.hostname = 'vmware_fusion'
   #end
