@@ -10,8 +10,7 @@ Vagrant.configure("2") do |config|
   ubuntu_32_box_url = "http://files.vagrantup.com/lucid32.box" #host ubuntu box
 
   # 64 bit vmware box
-
-  ubuntu_vmware_box = "ubuntu_vmware"
+  ubuntu_vmware_box = "precise64"
   ubuntu_vmware_box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
   # CentOS Box Info
@@ -36,14 +35,14 @@ Vagrant.configure("2") do |config|
   current_box_url = ubuntu_box_url # using ubuntu
 
   nodes = [
-    #{ name: 'rabbit1', ip: '192.168.40.10', mgmt_port: 10010 },
-    #{ name: 'rabbit2', ip: '192.168.40.11', mgmt_port: 10011 },
-    #{ name: 'rabbit3', ip: '192.168.40.12', mgmt_port: 10012 },
+    { name: 'rabbit1', ip: '192.168.64.10', mgmt_port: 10010 },
+    { name: 'rabbit2', ip: '192.168.64.11', mgmt_port: 10011 },
+    { name: 'rabbit3', ip: '192.168.64.12', mgmt_port: 10012 },
   ]
 
   nodes.each do |node|
     config.vm.define node[:name].to_sym do |rabbit_config|
-      rabbit_config.vm.box = ubuntu_box
+      rabbit_config.vm.box = ubuntu_vmware_box
       rabbit_config.vm.box_url = current_box_url
       rabbit_config.vm.network :forwarded_port, guest: 15672, host: node[:mgmt_port]
       rabbit_config.vm.network :private_network, ip: node[:ip]
@@ -52,14 +51,14 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  #config.vm.define :worker do |worker_config|
-  #  worker_config.vm.box = ubuntu_box    
-  #  worker_config.vm.box_url = current_box_url
-  #  worker_config.vm.network :private_network, ip: "192.168.64.20"
-  #  worker_config.vm.provision :shell, :path => "bash_scripts/worker.sh"
-  #  worker_config.vm.hostname = 'worker'
-  #  worker_config.vm.synced_folder "src/", "/srv/"
-  #end
+  config.vm.define :worker do |worker_config|
+    worker_config.vm.box = ubuntu_vmware_box    
+    worker_config.vm.box_url = current_box_url
+    worker_config.vm.network :private_network, ip: "192.168.64.20"
+    worker_config.vm.provision :shell, :path => "bash_scripts/worker.sh"
+    worker_config.vm.hostname = 'worker'
+    worker_config.vm.synced_folder "src/", "/srv/"
+  end
 
   #config.vm.define :railo do |railo_config|
   #  railo_config.vm.box = railo_box    
